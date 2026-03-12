@@ -10,11 +10,11 @@
 <script>
 async function loadWeather() {
     try {
-        let location = "";
+        let location = "北屯";
         const query = window.location.search;
         const params = new URLSearchParams(query);
         location = params.get("location");
-        if (!location) {
+        if (location === "") {
             location = "北屯"; // Default location if none given
         }
 
