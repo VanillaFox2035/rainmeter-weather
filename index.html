@@ -4,7 +4,36 @@
 <title>Rainmeter weather</title>
 </head>
 <body>
-<img class="weather-icon" src="https://raw.githubusercontent.com/VanillaFox2035/rainmeter-weather/main/Icons/Day/clear.png">
-<div class="temperature">10</div>
+<img id="weather-icon" src="https://raw.githubusercontent.com/VanillaFox2035/rainmeter-weather/main/Icons/Day/clear.png">
+<div id="temperature">-</div>
+
+<script>
+async function loadWeather() {
+    try {
+        let location = "北屯"; // Default location if none given
+        const query = window.location.search;
+        const params = new URLSearchParams(query);
+        location = params.get("location");
+
+        // Fetch data
+        const response = await fetch("https://weatherdata.vanillafox.site:4200/CurrentWeather/?location=" + location);
+        const data = await response.json();
+        // Get weather info
+        const weatherData = data.records.Station[0].WeatherElement;
+        console.log("weather data", weatherData);
+        const weather = weatherData.Weather;
+        const temperature = Math.round(weatherData.AirTemperature).toString();
+        const weatherIconElement = document.getElementById("weather-icon");
+        const temperatureElement = document.getElementById("temperature");
+        weatherIconElement.src = "Some picture";
+        temperatureElement.innerText = temperature;
+    }
+    catch (error) {
+        document.getElementById("temperature").innerText = "-";
+        console.error(error);
+    }
+}
+</script>
+
 </body>
 </html>
